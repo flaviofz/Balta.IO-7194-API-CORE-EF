@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "t2WGG9Re/lnLtBF4Id57JFS+i3mRTsKywZmR7dDl7W3u5tr5AgZj/LudNz+VXeJsGVrcwo0w9onZ+p5sFIiiyg==",
+  "dgSpecHash": "FmtIjsbiMmfRJLLzSMwf7cFSiNpAU3oTEBe11lhGuyJZaNGMJfQlJJHoyp5njDTwR/5kE8iOas3rZKbl5D28Yg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Flavio\\Documents\\Git\\7194Shop\\7194Shop.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Flavio\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\Flavio\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Flavio\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
+    "C:\\Users\\Flavio\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
+    "C:\\Users\\Flavio\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.6.3\\swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
+    "C:\\Users\\Flavio\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\5.6.3\\swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512"
+  ],
   "logs": []
 }
