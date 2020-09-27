@@ -12,6 +12,13 @@ namespace _7194SHOP.Controllers
             return "Get";
         }
 
+        [HttpGet]
+        [Route("{id:int}")]
+        public string GetById(int id)
+        {
+            return "Get " + id.ToString();
+        }
+
         [HttpPost]
         [Route("")]
         public string Post()
