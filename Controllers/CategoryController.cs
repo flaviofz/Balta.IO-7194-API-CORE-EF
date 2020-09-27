@@ -29,6 +29,9 @@ namespace _7194SHOP.Controllers
             [FromBody] Category model
         )
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             return Ok(model);
         }
 
@@ -40,10 +43,13 @@ namespace _7194SHOP.Controllers
             [FromBody] Category model
         )
         {
-            if (model.Id == id)
-                return Ok(model);
+            if (model.Id != id)
+                return NotFound(new { message = "Categoria não encontrada" });
 
-            return NotFound();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(model);
         }
 
         [HttpDelete]
