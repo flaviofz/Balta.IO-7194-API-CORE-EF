@@ -31,15 +31,22 @@ namespace _7194SHOP.Controllers
         }
 
         [HttpPut]
-        [Route("")]
-        public string Put()
+        [Route("{id:int}")]
+        public Category Put
+        (
+            int id,
+            [FromBody] Category model
+        )
         {
-            return "Put";
+            if (model.Id == id)
+                return model;
+
+            return null;
         }
 
         [HttpDelete]
-        [Route("")]
-        public string Delete()
+        [Route("{id:int}")]
+        public string Delete(int id)
         {
             return "Delete";
         }
