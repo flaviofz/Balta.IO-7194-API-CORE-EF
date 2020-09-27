@@ -1,3 +1,4 @@
+using _7194SHOP.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _7194SHOP.Controllers
@@ -21,9 +22,12 @@ namespace _7194SHOP.Controllers
 
         [HttpPost]
         [Route("")]
-        public string Post()
+        public Category Post
+        (
+            [FromBody] Category model
+        )
         {
-            return "Post";
+            return model;
         }
 
         [HttpPut]
