@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using _7194SHOP.Data;
 using _7194SHOP.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace _7194SHOP.Controllers
 {
@@ -53,16 +54,27 @@ namespace _7194SHOP.Controllers
         public async Task<ActionResult<Category>> Put
         (
             int id,
-            [FromBody] Category model
+            [FromBody] Category model,
+            [FromServices] DataContext context
         )
         {
-            if (model.Id != id)
-                return NotFound(new { message = "Categoria não encontrada" });
+            try
+            {
+                if (model.Id != id)
+                    return NotFound(new { message = "Categoria não encontrada" });
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            return Ok(model);
+                context.Entry<Category>(model).State = EntityState.Modified;
+                await context.SaveChangesAsync();
+
+                return Ok(model);
+            }
+            catch (System.Exception)
+            {
+                return BadRequest(new { message = "Não foi possível atualizar a categoria" });
+            }
         }
 
         [HttpDelete]
