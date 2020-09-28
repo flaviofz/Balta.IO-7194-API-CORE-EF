@@ -27,11 +27,15 @@ namespace _7194SHOP.Controllers
         [Route("")]
         public async Task<ActionResult<Category>> Post
         (
-            [FromBody] Category model
+            [FromBody] Category model,
+            [FromServices] DataContext context
         )
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            context.Categories.Add(model);
+            await context.SaveChangesAsync();
 
             return Ok(model);
         }
