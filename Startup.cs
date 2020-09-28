@@ -1,5 +1,7 @@
+using _7194SHOP.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +23,12 @@ namespace _7194Shop
         {
             //services.AddCors();
             services.AddControllers();
+            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
+
+            // AddScoped    => Um DataContext por requisição | Envia o mesmo DataContext que está na memória
+            // AddTransient => DataContext novo todo o momento que se pede um 
+            // AddSingleton => Um DataContext por aplicação
+            services.AddScoped<DataContext, DataContext>();
 
             // Swagger Open Api
             services.AddSwaggerGen(c =>
