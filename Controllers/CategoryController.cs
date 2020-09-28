@@ -13,16 +13,46 @@ namespace _7194SHOP.Controllers
     {
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<List<Category>>> Get()
+        public async Task<ActionResult<List<Category>>> Get
+        (
+            [FromServices] DataContext context
+        )
         {
-            return new List<Category>();
+            try
+            {
+                var categories = await context.Categories.AsNoTracking().ToListAsync();
+
+                return Ok(categories);
+            }
+            catch (System.Exception)
+            {
+                return BadRequest(new { message = "Não foi possível obter as categorias" });
+            }
         }
 
         [HttpGet]
         [Route("{id:int}")]
-        public async Task<ActionResult<Category>> GetById(int id)
+        public async Task<ActionResult<Category>> GetById
+        (
+            int id,
+            [FromServices] DataContext context
+        )
         {
-            return new Category();
+            try
+            {
+                var category = await context.Categories
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Id == id);
+
+                if (category == null)
+                    return NotFound(new { message = "Categoria não encontrada" });
+
+                return Ok(category);
+            }
+            catch (System.Exception)
+            {
+                return BadRequest(new { message = "Não foi possível obter a categoria" });
+            }
         }
 
         [HttpPost]
