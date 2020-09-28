@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using _7194SHOP.Data;
 using _7194SHOP.Models;
 using Microsoft.AspNetCore.Mvc;
 
