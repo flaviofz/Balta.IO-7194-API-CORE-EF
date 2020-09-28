@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using _7194SHOP.Data;
@@ -31,13 +32,20 @@ namespace _7194SHOP.Controllers
             [FromServices] DataContext context
         )
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            context.Categories.Add(model);
-            await context.SaveChangesAsync();
+                context.Categories.Add(model);
+                await context.SaveChangesAsync();
 
-            return Ok(model);
+                return Ok(model);
+            }
+            catch
+            {
+                return BadRequest(new { message = "Não foi possível inserir a categoria" });
+            }
         }
 
         [HttpPut]
