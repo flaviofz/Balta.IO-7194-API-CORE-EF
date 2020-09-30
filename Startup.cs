@@ -23,7 +23,11 @@ namespace _7194Shop
         {
             //services.AddCors();
             services.AddControllers();
-            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
+
+            // Uso em desenvolvimento é bom para os primeiros testes
+            //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
+
+            services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("connectionString")));
 
             // AddScoped    => Um DataContext por requisição | Envia o mesmo DataContext que está na memória
             // AddTransient => DataContext novo todo o momento que se pede um 
