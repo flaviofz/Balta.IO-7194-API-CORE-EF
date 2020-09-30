@@ -18,12 +18,19 @@ namespace _7194SHOP.Controllers
             [FromServices] DataContext context
         )
         {
-            var products = await context.Products
+            try
+            {
+                var products = await context.Products
                 .Include(x => x.Category)
                 .AsNoTracking()
                 .ToListAsync();
 
-            return products;
+                return Ok(products);
+            }
+            catch (System.Exception)
+            {
+                return BadRequest(new { message = "Não foi possível obter oss producto" });
+            }
         }
 
         [HttpGet]
@@ -34,12 +41,22 @@ namespace _7194SHOP.Controllers
             int id
         )
         {
-            var product = await context.Products
+            try
+            {
+                var product = await context.Products
                 .Include(x => x.Category)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            return product;
+                if (product == null)
+                    return NotFound(new { message = "Produto não encontrado" });
+
+                return Ok(product);
+            }
+            catch (System.Exception)
+            {
+                return BadRequest(new { message = "Não foi possível obter o producto" });
+            }
         }
 
         [HttpGet]
@@ -50,24 +67,44 @@ namespace _7194SHOP.Controllers
             int id
         )
         {
-            var products = await context.Products
+            try
+            {
+                var products = await context.Products
                 .Include(x => x.Category)
                 .AsNoTracking()
                 .Where(x => x.CategoryId == id)
                 .ToListAsync();
 
-            return products;
+                return Ok(products);
+            }
+            catch (System.Exception)
+            {
+                return BadRequest(new { message = "Não foi possível obter os productos" });
+            }
         }
 
-        // [HttpPost]
-        // [Route("")]
-        // public async Task<ActionResult<Product>> Post
-        // (
-        //     [FromServices] DataContext context,
-        //     [FromBody] Product model
-        // )
-        // {
+        [HttpPost]
+        [Route("")]
+        public async Task<ActionResult<Product>> Post
+        (
+            [FromServices] DataContext context,
+            [FromBody] Product model
+        )
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-        // }
+                context.Products.Add(model);
+                await context.SaveChangesAsync();
+
+                return Ok(model);
+            }
+            catch (System.Exception)
+            {
+                return BadRequest(new { message = "Não foi possível inserir o producto" });
+            }
+        }
     }
 }
