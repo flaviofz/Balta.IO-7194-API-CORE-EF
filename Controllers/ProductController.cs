@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using _7194SHOP.Data;
 using _7194SHOP.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,7 @@ namespace _7194SHOP.Controllers
     {
         [HttpGet]
         [Route("")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<Product>>> Get
         (
             [FromServices] DataContext context
@@ -35,6 +37,7 @@ namespace _7194SHOP.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Product>> Get
         (
             [FromServices] DataContext context,
@@ -61,6 +64,7 @@ namespace _7194SHOP.Controllers
 
         [HttpGet]
         [Route("categories/{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<Product>>> GetByCategory
         (
             [FromServices] DataContext context,
@@ -85,6 +89,7 @@ namespace _7194SHOP.Controllers
 
         [HttpPost]
         [Route("")]
+        [Authorize(Roles = "employee")]
         public async Task<ActionResult<Product>> Post
         (
             [FromServices] DataContext context,

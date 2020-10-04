@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _7194SHOP.Data;
@@ -13,9 +14,32 @@ namespace _7194SHOP.Controllers
     [Route("v1/users")]
     public class UserController : Controller
     {
+        [HttpGet]
+        [Route("")]
+        [Authorize(Roles = "manager")]
+        public async Task<ActionResult<List<User>>> Get
+        (
+            [FromServices] DataContext context
+        )
+        {
+            try
+            {
+                var users = await context.Users
+                .AsNoTracking()
+                .ToListAsync();
+
+                return users;
+            }
+            catch (System.Exception)
+            {
+                return BadRequest(new { message = "Não foi possível buscar os usuários" });
+            }
+        }
+
         [HttpPost]
         [Route("")]
         [AllowAnonymous]
+        //[Authorize(Roles = "manager")]
         public async Task<ActionResult<User>> Post
         (
             [FromServices] DataContext context,
@@ -37,6 +61,37 @@ namespace _7194SHOP.Controllers
             {
                 return BadRequest(new { message = "Não foi possível inserir o usuário" });
             }
+        }
+
+        [HttpPut]
+        [Route("{id:int}")]
+        [Authorize(Roles = "manager")]
+        public async Task<ActionResult<User>> Put
+        (
+            [FromServices] DataContext context,
+            int id,
+            [FromBody] User model
+        )
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                if (id != model.Id)
+                    return NotFound(new { message = "Usuário não encontrado" });
+
+                context.Entry<User>(model).State = EntityState.Modified;
+                await context.SaveChangesAsync();
+
+                return model;
+
+            }
+            catch (System.Exception)
+            {
+                return BadRequest(new { message = "Não foi possível alterar o usuário" });
+            }
+
         }
 
         [HttpPost]
