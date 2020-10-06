@@ -27,6 +27,9 @@ namespace _7194Shop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Para ser possível fazer requisições localhost
+            services.AddCors();
+
             // Adicionando compressão
             services.AddResponseCompression(options =>
             {
@@ -37,7 +40,6 @@ namespace _7194Shop
             // Adicionando Cache em toda a aplicação
             //services.AddResponseCaching();
 
-            //services.AddCors();
             services.AddControllers();
 
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
@@ -94,11 +96,10 @@ namespace _7194Shop
 
             app.UseRouting();
 
-            // Antes do Authentication e Authorization
-            //app.UseCors(x => x
-            //.AllowAnyOrigin()
-            //.AllowAnyMethod()
-            //.AllowAnyHeader());
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseAuthorization();
             app.UseAuthorization();
