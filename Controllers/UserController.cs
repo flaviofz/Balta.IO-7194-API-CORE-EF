@@ -48,12 +48,17 @@ namespace _7194SHOP.Controllers
         {
             try
             {
-
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
+                // Força o usuário a ser sempre "funcionário"
+                model.Role = "employee";
+
                 context.Users.Add(model);
                 await context.SaveChangesAsync();
+
+                // Esconde a senha
+                model.Passaword = "";
 
                 return model;
             }
@@ -84,8 +89,10 @@ namespace _7194SHOP.Controllers
                 context.Entry<User>(model).State = EntityState.Modified;
                 await context.SaveChangesAsync();
 
-                return model;
+                // Esconde a senha
+                model.Passaword = "";
 
+                return model;
             }
             catch (System.Exception)
             {
@@ -102,21 +109,28 @@ namespace _7194SHOP.Controllers
         [FromBody] User model
         )
         {
-            var user = await context.Users
+            try
+            {
+                var user = await context.Users
                 .AsNoTracking()
                 .Where(x => x.Username == model.Username && x.Passaword == model.Passaword)
                 .FirstOrDefaultAsync();
 
-            if (user == null)
-                return NotFound(new { message = "Usuário ou senha inválidos" });
+                if (user == null)
+                    return NotFound(new { message = "Usuário ou senha inválidos" });
 
-            var token = TokenService.GenerateToken(user);
+                var token = TokenService.GenerateToken(user);
 
-            return new
+                return new
+                {
+                    user = user,
+                    token = token
+                };
+            }
+            catch (System.Exception)
             {
-                user = user,
-                token = token
-            };
+                return BadRequest(new { message = "Não foi possível alterar o usuário" });
+            }
         }
 
         // [HttpGet]

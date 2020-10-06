@@ -68,7 +68,8 @@ namespace _7194Shop
             // AddScoped    => Um DataContext por requisição | Envia o mesmo DataContext que está na memória
             // AddTransient => DataContext novo todo o momento que se pede um 
             // AddSingleton => Um DataContext por aplicação
-            services.AddScoped<DataContext, DataContext>();
+            // Não precisa mais dele, o AddDbContext acima já faz a função dele            
+            //services.AddScoped<DataContext, DataContext>();
 
             // Swagger Open Api
             services.AddSwaggerGen(c =>
