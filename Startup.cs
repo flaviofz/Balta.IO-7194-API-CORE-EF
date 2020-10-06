@@ -10,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.Linq;
 
 namespace _7194Shop
 {
@@ -25,6 +27,16 @@ namespace _7194Shop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Adicionando compressão
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json" });
+            });
+
+            // Adicionando Cache em toda a aplicação
+            //services.AddResponseCaching();
+
             //services.AddCors();
             services.AddControllers();
 
