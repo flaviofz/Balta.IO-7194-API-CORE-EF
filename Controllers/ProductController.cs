@@ -38,7 +38,7 @@ namespace _7194SHOP.Controllers
         [HttpGet]
         [Route("{id:int}")]
         [AllowAnonymous]
-        public async Task<ActionResult<Product>> Get
+        public async Task<ActionResult<Product>> GetById
         (
             [FromServices] DataContext context,
             int id
