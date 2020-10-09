@@ -62,7 +62,6 @@ namespace _7194Shop
 
             // Uso em desenvolvimento é bom para os primeiros testes
             //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
-
             services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("connectionString")));
 
             // AddScoped    => Um DataContext por requisição | Envia o mesmo DataContext que está na memória
