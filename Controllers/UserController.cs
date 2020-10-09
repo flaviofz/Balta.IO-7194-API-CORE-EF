@@ -121,6 +121,8 @@ namespace _7194SHOP.Controllers
 
                 var token = TokenService.GenerateToken(user);
 
+                user.Passaword = "";
+
                 return new
                 {
                     user = user,
